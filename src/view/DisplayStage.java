@@ -1,6 +1,7 @@
 package view;
 
 import content.Student;
+import java.io.BufferedWriter;
 import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -9,12 +10,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class DisplayStage extends Stage {
 
     private ArrayList<Student> studentList = new ArrayList<>();
-//    private ObjectOutputStream output;
     private String[] lblContents = {
         "Student's overall average of all courses:\n",
         "Overall average of each course:\n",
