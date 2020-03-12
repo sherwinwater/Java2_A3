@@ -1,3 +1,9 @@
+/**
+ * Shuwen Wang
+ * 991583096
+ * Assignment 2
+ * 02-05-2020
+ */
 package view;
 
 import content.Student;
@@ -12,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.FileWriter;
 import java.io.IOException;
+import studentfx.Studentfx;
 
 public class DisplayStage extends Stage {
 
@@ -39,7 +46,6 @@ public class DisplayStage extends Stage {
         txaStudentGrade.setPrefRowCount(5);
         txaStudentGrade.setScrollTop(5);
         txaCourseGrade.setPrefRowCount(4);
-        txaCourseGrade.setScrollTop(5);
         txaOverallAvgGrade.setPrefRowCount(1);
 
         Button btnReturnHome = new Button("Return home and add grades");
@@ -48,11 +54,12 @@ public class DisplayStage extends Stage {
         btnReturnHome.setTextFill(Color.DARKBLUE);
 
         pane.getChildren().addAll(lblStudentGrade, txaStudentGrade,
-                lblCourseGrade, txaCourseGrade, lblOverallAvgGrade, txaOverallAvgGrade,
-                btnSaveFile, btnReturnHome);
+                lblCourseGrade, txaCourseGrade, lblOverallAvgGrade,
+                txaOverallAvgGrade, btnSaveFile, btnReturnHome);
 
         btnReturnHome.setOnAction((e) -> {
             ((Stage) (this.getScene().getWindow())).close();
+            Studentfx.primaryStage.show();
 
         });
         btnSaveFile.setOnAction((e) -> {
@@ -61,10 +68,6 @@ public class DisplayStage extends Stage {
 
         Scene one = new Scene(pane, 350, 400);
         return one;
-    }
-
-    public void setLblContents(String[] lblContents) {
-        this.lblContents = lblContents;
     }
 
     public String[] getGradeResults() {
@@ -84,8 +87,8 @@ public class DisplayStage extends Stage {
                 studentGrade += "Student ID " + one.getId() + " : " + one.getAvgOfAllGrade() + "\n";
                 gradeAllAvg += one.getAvgOfAllGrade() / studentListSize;
                 for (int i = 0; i < 5; i++) {
-                    grades[i] += one.getGrade()[i] / studentListSize;
-                    courses[i] = one.getCourse()[i];
+                    grades[i] += one.getGrades()[i] / studentListSize;
+                    courses[i] = one.getCourses()[i];
                 }
             }
             for (int i = 0; i < 5; i++) {
@@ -105,21 +108,19 @@ public class DisplayStage extends Stage {
             for (int sub = 0; sub < this.studentList.size(); sub++) {
                 Student one = this.studentList.get(sub);
                 String id = String.valueOf(one.getId());
-                String grade = new String();
-                for (int i = 0; i < 5; i++) {
-                    grade += "," + one.getGrade()[i];
+                String grades = new String();
+                for (int i = 0; i < one.getGrades().length; i++) {
+                    grades += "," + one.getGrades()[i];
                 }
-                String res = id + grade;
-                bw.write(res);
+                String sData = id + grades;
+                bw.write(sData);
                 bw.flush();
                 bw.newLine();
             }
             bw.close();
             fw.close();
-
-        } catch (IOException ex) {
-            System.out.println("problems either flushing or closing file");
+        } catch (IOException e) {
+            System.out.println("no data found");
         }
     }
-
 }

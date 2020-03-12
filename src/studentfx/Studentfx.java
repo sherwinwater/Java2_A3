@@ -1,21 +1,25 @@
+/**
+ * Shuwen Wang
+ * 991583096
+ * Assignment 2
+ * 02-05-2020
+ */
 package studentfx;
 
 import content.Student;
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import view.DisplayStage;
 
-public class Studentfx extends Application {
+public class Studentfx extends Application{
 
     private Label lblID = new Label("Student ID");
     private Label lblCourseTitle = new Label("Courses");
@@ -35,24 +39,23 @@ public class Studentfx extends Application {
 
     private Button btnAddGrade = new Button("Add Grade");
     private Button btnDisplayGrade = new Button("Display Grade");
-    
-    @Override
-    public void start(Stage primaryStage) {
+    private ArrayList<Student> studentList = new ArrayList<>();
+    public static Stage primaryStage;
 
-        ArrayList <Student> studentList = new ArrayList<>();
-        
-        btnAddGrade.setOnAction((e)->{
-            Student one = recordGrade();
-            studentList.add(one);
-            clearText();
-            
+    @Override
+    public void start(Stage primaryStage){
+        this.primaryStage = primaryStage;
+
+        btnAddGrade.setOnAction((e) -> {
+            studentList.add(recordGrade());
         });
-        
-       btnDisplayGrade.setOnAction((e)->{
-           DisplayStage ds = new DisplayStage(studentList);
-           ds.show();
-       });
-        
+
+        btnDisplayGrade.setOnAction((e) -> {
+            DisplayStage ds = new DisplayStage(studentList);
+            ds.show();
+            this.primaryStage.close();
+        });
+
         Scene scene = new Scene(addPane(), 300, 300);
         primaryStage.setTitle("Student Course Grades");
         primaryStage.setScene(scene);
@@ -61,8 +64,8 @@ public class Studentfx extends Application {
 
     private GridPane addPane() {
         GridPane pane = new GridPane();
-        
-        pane.setPadding(new Insets(10, 10, 10, 10)); 
+
+        pane.setPadding(new Insets(10, 10, 10, 10));
         pane.setHgap(5);
         pane.setVgap(5);
 
@@ -90,30 +93,27 @@ public class Studentfx extends Application {
 
     private Student recordGrade() {
         Student one = new Student();
-        
+
         int id = Integer.parseInt(txtID.getText());
         int grade1 = Integer.parseInt(txtGrade1.getText());
         int grade2 = Integer.parseInt(txtGrade2.getText());
         int grade3 = Integer.parseInt(txtGrade3.getText());
         int grade4 = Integer.parseInt(txtGrade4.getText());
         int grade5 = Integer.parseInt(txtGrade5.getText());
-        
+
         String course1 = lblCourse1.getText();
         String course2 = lblCourse2.getText();
         String course3 = lblCourse3.getText();
         String course4 = lblCourse4.getText();
         String course5 = lblCourse5.getText();
-        
-        int [] grades = {grade1,grade2,grade3,grade4,grade5};
-        String [] courses = {course1,course2,course3,course4,course5};
+
+        int[] grades = {grade1, grade2, grade3, grade4, grade5};
+        String[] courses = {course1, course2, course3, course4, course5};
 
         one.setId(id);
-        one.setCourse(courses);
-        one.setGrade(grades);
+        one.setCourses(courses);
+        one.setGrades(grades);
 
-        return one;
-    }
-    private void clearText(){
         txtID.clear();
         txtGrade1.clear();
         txtGrade2.clear();
@@ -121,10 +121,11 @@ public class Studentfx extends Application {
         txtGrade4.clear();
         txtGrade5.clear();
         txtID.requestFocus();
+        
+        return one;
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
 }
